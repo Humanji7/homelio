@@ -1,0 +1,191 @@
+meta:
+  milestone: "Milestone 1. Reverse Engineering Documents"
+  source_types:
+    - PROFILE
+    - TENDER
+    - CALC
+    - SYSTEM
+    - UNKNOWN
+
+documents:
+  - id: participant_questionnaire
+    name: "Анкета участника"
+    template_file: "materials/Материалы/02. Шаблоны/01_Анкета_участника_шаблон.docx"
+    example_file: "materials/Материалы/03. Заполненные примеры/01_Анкета_участника_пример.docx"
+    coverage:
+      unique_placeholders_total: 15
+      unresolved_fields: 0
+    repeated_blocks: []
+    fields:
+      - token: "[Краткое наименование участника]"
+        source_type: PROFILE
+        source_path: "company.short_name"
+        example_value: "ООО «НордТехРесурс»"
+      - token: "[ИНН]"
+        source_type: PROFILE
+        source_path: "company.inn"
+        example_value: "7705123456"
+      - token: "[Полное наименование участника]"
+        source_type: PROFILE
+        source_path: "company.full_name"
+        example_value: "Общество с ограниченной ответственностью «НордТехРесурс»"
+      - token: "[КПП]"
+        source_type: PROFILE
+        source_path: "company.kpp"
+        example_value: "770501001"
+      - token: "[ОГРН]"
+        source_type: PROFILE
+        source_path: "company.ogrn"
+        example_value: "1127746123456"
+      - token: "[Юридический адрес]"
+        source_type: PROFILE
+        source_path: "company.legal_address_full"
+        example_value: "123112, Российская Федерация, г. Москва, Пресненская набережная, д. 8, стр. 1, офис 42"
+      - token: "[Расчетный счет]"
+        source_type: PROFILE
+        source_path: "bank.account"
+        example_value: "40702810900000012345"
+      - token: "[Наименование банка]"
+        source_type: PROFILE
+        source_path: "bank.name"
+        example_value: "АО «Тест Банк» г. Москва"
+      - token: "[Корреспондентский счет]"
+        source_type: PROFILE
+        source_path: "bank.correspondent_account"
+        example_value: "30101810400000000225"
+      - token: "[БИК]"
+        source_type: PROFILE
+        source_path: "bank.bik"
+        example_value: "044525225"
+      - token: "[Контактное лицо]"
+        source_type: PROFILE
+        source_path: "contact.responsible_name_full"
+        example_value: "Петрова Марина Сергеевна"
+      - token: "[E-mail]"
+        source_type: PROFILE
+        source_path: "contact.email"
+        example_value: "tender@test-supplier.example"
+      - token: "[Телефон]"
+        source_type: PROFILE
+        source_path: "contact.phone"
+        example_value: "+7 (999) 123-45-67"
+      - token: "[Должность подписанта]"
+        source_type: PROFILE
+        source_path: "signatory.position"
+        example_value: "Генеральный директор"
+      - token: "[ФИО подписанта]"
+        source_type: PROFILE
+        source_path: "signatory.name_short"
+        example_value: "Соколов И.А."
+
+  - id: bid_application
+    name: "Заявка на участие в закупке"
+    template_file: "materials/Материалы/02. Шаблоны/02_Заявка_на_участие_в_закупке_шаблон.docx"
+    example_file: "materials/Материалы/03. Заполненные примеры/02_Заявка_на_участие_в_закупке_пример.docx"
+    coverage:
+      unique_placeholders_total: 8
+      unresolved_fields: 1
+    repeated_blocks: []
+    fields:
+      - token: "[Дата в формате «26» марта 2026 года]"
+        source_type: SYSTEM
+        source_path: "system.current_date_text"
+        example_value: "«26» марта 2026 года"
+        notes: "Нужен детерминированный форматтер даты, значение отсутствует в JSON."
+      - token: "[Исх. номер заявки]"
+        source_type: UNKNOWN
+        source_path: null
+        example_value: "№2603/1"
+        notes: "Входного источника в тестовых JSON нет; требуется отдельное правило или дополнительный input."
+      - token: "[Полное наименование участника]"
+        source_type: PROFILE
+        source_path: "company.full_name"
+        example_value: "Общество с ограниченной ответственностью «НордТехРесурс»"
+      - token: "[Юридический адрес]"
+        source_type: PROFILE
+        source_path: "company.legal_address_full"
+        example_value: "123112, Российская Федерация, г. Москва, Пресненская набережная, д. 8, стр. 1, офис 42"
+      - token: "[Предмет закупки]"
+        source_type: TENDER
+        source_path: "subject"
+        example_value: "Поставка кабельной продукции для производственной площадки «Север-1»"
+      - token: "[Срок действия предложения, дней]"
+        source_type: TENDER
+        source_path: "offer_validity_days"
+        example_value: "60"
+      - token: "[Должность подписанта]"
+        source_type: PROFILE
+        source_path: "signatory.position"
+        example_value: "Генеральный директор"
+      - token: "[ФИО подписанта]"
+        source_type: PROFILE
+        source_path: "signatory.name_short"
+        example_value: "Соколов И.А."
+
+  - id: price_offer
+    name: "Предложение о цене договора"
+    template_file: "materials/Материалы/02. Шаблоны/03_Предложение_о_цене_договора_шаблон.docx"
+    example_file: "materials/Материалы/03. Заполненные примеры/03_Предложение_о_цене_договора_пример.docx"
+    coverage:
+      unique_placeholders_total: 13
+      unresolved_fields: 0
+    repeated_blocks:
+      - block_id: "line_items_rows"
+        repeats_for: "calc.items"
+        notes: "Один и тот же набор плейсхолдеров повторен для каждой строки коммерческого предложения."
+    fields:
+      - token: "[Краткое наименование участника]"
+        source_type: PROFILE
+        source_path: "company.short_name"
+        example_value: "ООО «НордТехРесурс»"
+      - token: "[ИНН]"
+        source_type: PROFILE
+        source_path: "company.inn"
+        example_value: "7705123456"
+      - token: "[Наименование продукции]"
+        source_type: CALC
+        source_path: "items[].quote_name"
+        example_value: "Кабель силовой ВВГнг(А)-LS 3х2,5 ГОСТ 31996-2012"
+        notes: "Используется именно quote_name из calc, а не tender.items[].name."
+      - token: "[Ед. изм.]"
+        source_type: CALC
+        source_path: "items[].offer_unit"
+        example_value: "м"
+      - token: "[НМЦ за ед.]"
+        source_type: TENDER
+        source_path: "items[].nmc_unit_price"
+        example_value: "185,00"
+      - token: "[Цена за ед. без НДС]"
+        source_type: CALC
+        source_path: "items[].unit_price_wo_vat"
+        example_value: "176,00"
+      - token: "[Кол-во]"
+        source_type: CALC
+        source_path: "items[].offer_qty"
+        example_value: "1200"
+        notes: "Значение дублируется с tender.items[].qty, но в оферте логичнее брать calc."
+      - token: "[Сумма без НДС]"
+        source_type: CALC
+        source_path: "items[].line_total_wo_vat"
+        example_value: "211 200,00"
+      - token: "[Итого без НДС]"
+        source_type: CALC
+        source_path: "subtotal_wo_vat"
+        example_value: "432 600,00"
+      - token: "[Сумма НДС]"
+        source_type: CALC
+        source_path: "vat_amount"
+        example_value: "86 520,00"
+      - token: "[Итого с НДС]"
+        source_type: CALC
+        source_path: "total_with_vat"
+        example_value: "519 120,00"
+      - token: "[Должность подписанта]"
+        source_type: PROFILE
+        source_path: "signatory.position"
+        example_value: "Генеральный директор"
+      - token: "[ФИО подписанта]"
+        source_type: PROFILE
+        source_path: "signatory.name_short"
+        example_value: "Соколов И.А."
+

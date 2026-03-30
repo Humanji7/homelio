@@ -1,0 +1,131 @@
+documents:
+  - id: participant_questionnaire
+    template_file: "materials/Материалы/02. Шаблоны/01_Анкета_участника_шаблон.docx"
+    output_file: "01_Анкета_участника_заполнено.docx"
+    placeholders:
+      "[Краткое наименование участника]":
+        source_root: profile
+        source_path: "company.short_name"
+      "[ИНН]":
+        source_root: profile
+        source_path: "company.inn"
+      "[Полное наименование участника]":
+        source_root: profile
+        source_path: "company.full_name"
+      "[КПП]":
+        source_root: profile
+        source_path: "company.kpp"
+      "[ОГРН]":
+        source_root: profile
+        source_path: "company.ogrn"
+      "[Юридический адрес]":
+        source_root: profile
+        source_path: "company.legal_address_full"
+      "[Расчетный счет]":
+        source_root: profile
+        source_path: "bank.account"
+      "[Наименование банка]":
+        source_root: profile
+        source_path: "bank.name"
+      "[Корреспондентский счет]":
+        source_root: profile
+        source_path: "bank.correspondent_account"
+      "[БИК]":
+        source_root: profile
+        source_path: "bank.bik"
+      "[Контактное лицо]":
+        source_root: profile
+        source_path: "contact.responsible_name_full"
+      "[E-mail]":
+        source_root: profile
+        source_path: "contact.email"
+      "[Телефон]":
+        source_root: profile
+        source_path: "contact.phone"
+      "[Должность подписанта]":
+        source_root: profile
+        source_path: "signatory.position"
+      "[ФИО подписанта]":
+        source_root: profile
+        source_path: "signatory.name_short"
+
+  - id: bid_application
+    template_file: "materials/Материалы/02. Шаблоны/02_Заявка_на_участие_в_закупке_шаблон.docx"
+    output_file: "02_Заявка_на_участие_в_закупке_заполнено.docx"
+    placeholders:
+      "[Дата в формате «26» марта 2026 года]":
+        source_root: system
+        source_path: "current_date_text"
+      "[Исх. номер заявки]":
+        source_root: system
+        source_path: "outgoing_number"
+      "[Полное наименование участника]":
+        source_root: profile
+        source_path: "company.full_name"
+      "[Юридический адрес]":
+        source_root: profile
+        source_path: "company.legal_address_full"
+      "[Предмет закупки]":
+        source_root: tender
+        source_path: "subject"
+      "[Срок действия предложения, дней]":
+        source_root: tender
+        source_path: "offer_validity_days"
+      "[Должность подписанта]":
+        source_root: profile
+        source_path: "signatory.position"
+      "[ФИО подписанта]":
+        source_root: profile
+        source_path: "signatory.name_short"
+
+  - id: price_offer
+    template_file: "materials/Материалы/02. Шаблоны/03_Предложение_о_цене_договора_шаблон.docx"
+    output_file: "03_Предложение_о_цене_договора_заполнено.docx"
+    placeholders:
+      "[Краткое наименование участника]":
+        source_root: profile
+        source_path: "company.short_name"
+      "[ИНН]":
+        source_root: profile
+        source_path: "company.inn"
+      "[Итого без НДС]":
+        source_root: calc
+        source_path: "subtotal_wo_vat"
+        formatter: money
+      "[Сумма НДС]":
+        source_root: calc
+        source_path: "vat_amount"
+        formatter: money
+      "[Итого с НДС]":
+        source_root: calc
+        source_path: "total_with_vat"
+        formatter: money
+      "[Должность подписанта]":
+        source_root: profile
+        source_path: "signatory.position"
+      "[ФИО подписанта]":
+        source_root: profile
+        source_path: "signatory.name_short"
+    repeating_rows:
+      - marker_token: "[Наименование продукции]"
+        collection_root: derived
+        collection_path: "price_rows"
+        row_number:
+          source_path: "line_no"
+        tokens:
+          "[Наименование продукции]":
+            source_path: "quote_name"
+          "[Ед. изм.]":
+            source_path: "offer_unit"
+          "[НМЦ за ед.]":
+            source_path: "nmc_unit_price"
+            formatter: money
+          "[Цена за ед. без НДС]":
+            source_path: "unit_price_wo_vat"
+            formatter: money
+          "[Кол-во]":
+            source_path: "offer_qty"
+          "[Сумма без НДС]":
+            source_path: "line_total_wo_vat"
+            formatter: money
+
