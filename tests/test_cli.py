@@ -1,3 +1,5 @@
+import json
+import re
 import zipfile
 from pathlib import Path
 
@@ -85,3 +87,62 @@ def test_generate_replaces_core_values_in_output(tmp_path: Path) -> None:
     assert "Кабель контрольный КВВГнг(А)-LS 10х1,5" in price_offer
     assert "432 600,00" in price_offer
     assert "[Наименование продукции]" not in price_offer
+
+
+def test_generate_removes_all_placeholders_from_all_output_documents(tmp_path: Path) -> None:
+    runner = CliRunner()
+
+    result = runner.invoke(
+        app,
+        [
+            "generate",
+            "--output-dir",
+            str(tmp_path),
+            "--document-date",
+            "2026-03-26",
+            "--outgoing-number",
+            "№2603/1",
+        ],
+    )
+
+    assert result.exit_code == 0
+
+    for docx_name in [
+        "01_Анкета_участника_заполнено.docx",
+        "02_Заявка_на_участие_в_закупке_заполнено.docx",
+        "03_Предложение_о_цене_договора_заполнено.docx",
+    ]:
+        document_xml = read_document_xml_text(tmp_path / docx_name)
+        assert re.findall(r"\[[^\[\]]+\]", document_xml) == []
+
+
+def test_generate_uses_missing_marker_for_missing_profile_value(tmp_path: Path) -> None:
+    runner = CliRunner()
+    source_profile = Path("materials/Материалы/04. Пример данных JSON/company_profile_example.json")
+    profile_data = json.loads(source_profile.read_text(encoding="utf-8"))
+    del profile_data["contact"]["email"]
+
+    profile_override = tmp_path / "company_profile_missing_email.json"
+    profile_override.write_text(json.dumps(profile_data, ensure_ascii=False), encoding="utf-8")
+
+    result = runner.invoke(
+        app,
+        [
+            "generate",
+            "--profile",
+            str(profile_override),
+            "--output-dir",
+            str(tmp_path),
+            "--document-date",
+            "2026-03-26",
+            "--missing-marker",
+            "<MISSING>",
+        ],
+    )
+
+    assert result.exit_code == 0
+
+    questionnaire_xml = read_document_xml_text(tmp_path / "01_Анкета_участника_заполнено.docx")
+
+    assert "&lt;MISSING&gt;" in questionnaire_xml
+    assert "[E-mail]" not in questionnaire_xml

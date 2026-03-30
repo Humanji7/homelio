@@ -7,3 +7,8 @@ __pycache__/
 *.pyo
 *.pyd
 .DS_Store
+BRIEF.md
+DONE.md
+PLANS.md
+QA.md
+HANDOFF.md
