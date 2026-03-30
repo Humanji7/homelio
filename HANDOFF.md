@@ -10,7 +10,8 @@
 - Milestone 1. Reverse Engineering Documents — completed
 - Milestone 2. Deterministic Mapping And Rendering — completed
 - Milestone 3. Final Packaging — completed
-- Repository is ready for final review / submission
+- Milestone 4. Publication And Submission Packaging — completed
+- Repository is public and ready for submission
 
 ## Changed areas
 
@@ -27,6 +28,7 @@
 - `uv run pytest` — passed
 - `uv run ruff check` — passed
 - `uv run homelio generate --document-date 2026-03-26 --outgoing-number "№2603/1"` — passed
+- `git push -u origin main` via `gh repo create --public --source=. --remote=origin --push` — passed
 - `output/*.docx` обновлены `2026-03-30 16:25:00`
 - Smoke-проверка XML внутри `output/02_...docx` и `output/03_...docx` подтвердила ключевые значения и отсутствие маркера `[Наименование продукции]`
 
@@ -35,11 +37,12 @@
 - Поле `Исх. номер заявки` по-прежнему требует явного входа через `--outgoing-number`; это осознанное ограничение, потому что такого значения нет в тестовых JSON.
 - Генерация опирается на текстовые плейсхолдеры в DOCX и текущую структуру `word/document.xml`; при изменении шаблонов может понадобиться доработка правил или рендера.
 - Нет отдельного автоматического побайтного сравнения с эталонными DOCX; текущая проверка — тесты плюс smoke-проверка ключевых полей.
+- Публичный репозиторий: `https://github.com/Humanji7/homelio`
 
 ## Recommended next skill
 
-`review-against-done`
+`handoff-report`
 
 ## Exact next prompt
 
-Проведи итоговый review against DONE в /Users/admin/projects/homelio и зафиксируй только реальные блокеры или остаточные замечания перед сдачей.
+Проверь финальный пакет сдачи и подскажи короткий текст сообщения для отправки заказчику.

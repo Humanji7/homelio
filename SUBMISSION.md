@@ -2,7 +2,7 @@
 
 ## What to send
 
-- Public repository URL: `TBD`
+- Public repository URL: `https://github.com/Humanji7/homelio`
 - Optional ZIP archive: `../homelio_submission.zip`
 
 ## Repository contents
@@ -31,4 +31,4 @@ uv run homelio generate --document-date 2026-03-26 --outgoing-number "№2603/1"
 - итоговые сгенерированные документы в `output/`;
 - краткая архитектурная записка в `notes/architecture.md`.
 
-Ссылка на репозиторий: `TBD`
+Ссылка на репозиторий: `https://github.com/Humanji7/homelio`

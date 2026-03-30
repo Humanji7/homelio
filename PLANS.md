@@ -6,7 +6,7 @@
 - Milestone 1. Reverse Engineering Documents — completed
 - Milestone 2. Deterministic Mapping And Rendering — completed
 - Milestone 3. Final Packaging — completed
-- Milestone 4. Publication And Submission Packaging — in progress
+- Milestone 4. Publication And Submission Packaging — completed
 
 ## Milestone 0. Preparation
 
@@ -48,6 +48,13 @@
 - Создать публичный GitHub-репозиторий и запушить текущую ветку.
 - Собрать чистый ZIP-архив проекта для отправки.
 - Валидация: `git status --short`, успешный `git push`, доступный публичный URL репозитория, проверка содержимого ZIP.
+
+### Milestone 4 completion notes
+
+- Инициализирован git-репозиторий с веткой `main`.
+- Создан публичный репозиторий `https://github.com/Humanji7/homelio`.
+- Ветка `main` запушена в `origin` и отслеживается удаленно.
+- Подготовлен `SUBMISSION.md` с публичной ссылкой и коротким текстом отправки.
 
 ## Risks
 
